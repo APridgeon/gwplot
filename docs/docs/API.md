@@ -511,10 +511,10 @@ gw.save_svg("visualization.svg")
 
 `encode_as_png(compression_level: int = 6) -> Optional[bytes]`
 
-Encode the current canvas as PNG and return the binary data.
+Encode the current canvas as PNG and return the binary data. The PNG is 8-bit RGB when the theme's background is opaque (as in the built-in themes), and RGBA otherwise.
 
 **Parameters:**
-- `compression_level` (int): PNG compression level (0-9)
+- `compression_level` (int): zlib compression level, 0 (fastest, largest) to 9 (slowest, smallest)
 
 **Returns:**
 - `bytes` or `None`: PNG encoded image data or None if the raster surface hasn't been created
@@ -553,7 +553,7 @@ Encode the current canvas as JPEG and return the binary data.
 Convert the pixel data to a numpy array using zero-copy interface.
 
 **Returns:**
-- `numpy.ndarray` or `None`: RGBA image data as a 3D numpy array (height × width × 4) or None if the raster surface hasn't been created
+- `numpy.ndarray` or `None`: image data as a 3D numpy array (height × width × 4) or None if the raster surface hasn't been created. The channels are in Skia's native 32-bit order, which depends on how Skia was built: BGRA in gwplot's Linux builds. For RGBA there, use `arr[..., [2, 1, 0, 3]]`.
 
 **Example:**
 ```python

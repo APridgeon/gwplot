@@ -195,10 +195,10 @@ gw.add_region("chr1", 1000000, 1010000)
 gw.draw()
 
 # Get the visualisation as a NumPy array
-img_array = gw.array()  # Returns RGBA data as height x width x 4 array
+img_array = gw.array()  # height x width x 4, in Skia's native channel order (BGRA on Linux)
 
 # Process with NumPy/PIL
-img = Image.fromarray(img_array)
+img = Image.fromarray(img_array[..., [2, 1, 0, 3]])  # BGRA -> RGBA
 img.save("processed_visualisation.png")
 ```
 

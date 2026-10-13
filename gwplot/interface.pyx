@@ -2594,6 +2594,14 @@ cdef class Gw:
         """
         Encode the current canvas as PNG and return the binary data.
 
+        The PNG is 8-bit RGB when the theme's background is opaque (as in the built-in
+        themes), and RGBA otherwise.
+
+        Parameters
+        ----------
+        compression_level : int
+            zlib level, 0 (fastest, largest) to 9 (slowest, smallest)
+
         Returns
         -------
             bytes: PNG encoded image data
@@ -2694,10 +2702,13 @@ cdef class Gw:
         """
         Convert the pixel data to a numpy array using zero-copy interface
 
+        The channels are in Skia's native 32-bit order, which depends on how Skia was built:
+        BGRA in gwplot's Linux builds. For RGBA there, use ``arr[..., [2, 1, 0, 3]]``.
+
         Returns
         -------
         numpy.ndarray or None
-            RGBA image data as a 3D numpy array (height × width × 4)
+            Image data as a 3D numpy array (height × width × 4), BGRA or RGBA as above,
             or None if the raster surface hasn't been created
         """
         if not self.raster_surface_created:
