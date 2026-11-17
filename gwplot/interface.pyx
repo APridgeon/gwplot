@@ -823,7 +823,8 @@ cdef class Gw:
         Returns
         -------
         str
-            Current theme name ("slate", "dark", or "igv")
+            Current theme name: "dark", "igv", "slate", "tide" or "frost" (igv and frost
+            are the light ones)
         """
         return self.thisptr.opts.theme.name
 
@@ -834,7 +835,8 @@ cdef class Gw:
         Parameters
         ----------
         theme_name : str
-            Theme name, must be one of "slate", "dark", or "igv"
+            Theme name, one of "dark", "igv", "slate", "tide" or "frost" (igv and frost are
+            the light ones)
 
         Returns
         -------
@@ -846,8 +848,8 @@ cdef class Gw:
         ValueError
             If theme_name is not one of the supported themes
         """
-        if theme_name not in ("slate", "dark", "igv"):
-            raise ValueError("Theme must be one of slate, dark, igv")
+        if theme_name not in ("dark", "igv", "slate", "tide", "frost"):
+            raise ValueError("Theme must be one of dark, igv, slate, tide, frost")
         self.thisptr.opts.setTheme(theme_name)
         self.thisptr.opts.theme.setAlphas()
         return self
